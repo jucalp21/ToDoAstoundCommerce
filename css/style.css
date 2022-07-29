@@ -1,0 +1,30 @@
+html{
+	font-family: "Comic Sans MS", "Comic Sans", cursive;
+}
+body{
+	display: grid;
+	place-items: center;
+	background-color: #B6B6B6;
+}
+button{
+	cursor: pointer;
+}
+.tasks-container{
+	width: 100%;
+	padding: 0 0.5rem;
+}
+#list{
+	list-style: none;
+	padding: 0;
+}
+li.completed{
+	text-decoration: line-through;
+}
+li{
+	background-color: gray;
+	margin:0.5rem 0;
+	padding: 1rem;
+}
+li > input[type="checkbox"]{
+	cursor: pointer;
+}
