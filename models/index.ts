@@ -3,7 +3,6 @@
 
 import Utils from "./utils.js";
 import Task from "./task.js";
-
 export default class IndexPage {
 
 	private addButtonElement: HTMLButtonElement;
@@ -46,34 +45,64 @@ export default class IndexPage {
 
 			const labelElement: HTMLLabelElement = document.createElement('label');
 			const inputElement: HTMLInputElement = Object.assign(document.createElement('input'), { type: 'checkbox', value: task.taskId, checked: task.taskIsCompleted });
+			inputElement.className = 'toggleTask';
 			const liElement: HTMLLIElement = Object.assign(document.createElement('li'), { className: `${task.taskIsCompleted ? 'completed' : null}` });
 
 
 			labelElement.appendChild(inputElement);
 			labelElement.insertAdjacentText('beforeend', task.taskName);
 			liElement.appendChild(labelElement);
-			
-
+			liElement.innerHTML += `
+			<button style="margin-right: 20px; margin-top: 20px;" class="btn-delete" id="${task.taskId}">
+			🗑 Delete
+			</button>
+			<button style="margin-right: 20px; margin-top: 20px;" class="btn-edit" id="${task.taskId}" style>
+			🖉 Edit
+			</button>			
+			`
 			this.ulTaskContainerEl.appendChild(liElement);
-
+			
 		});
 
-	}
+	};
 
 	private clearCointainer():void {
 		this.ulTaskContainerEl.innerHTML = '';
-	}
+	};
 
 	private completeTask(e: Event): void {
 
 		const clickedElement: any = e.target;
 		if(clickedElement.tagName === 'INPUT') {
-			this.utilsObj.toggleTaskStatus(+clickedElement.value);
-		}
+			if(clickedElement.className === 'toggleTask'){
+				console.log('toggleTask');
+				this.utilsObj.toggleTaskStatus(+clickedElement.value);
+			};
+		};
+		
+		if(clickedElement.tagName === 'BUTTON'){
+			if(clickedElement.className === 'btn-delete'){
+				let idOfTask: number = clickedElement.id;
+				this.utilsObj.deleteTask(idOfTask);
+				this.renderTasks();
+			}
+
+			if(clickedElement.className === 'btn-edit'){
+				let idOfTask: number = clickedElement.id;
+				let newText = this.taskInputElement.value;
+				if(newText){
+					this.utilsObj.editTask(idOfTask,newText);
+					this.renderTasks();
+
+				} else {
+					alert('The edit field is empty');
+				}
+			}
+		};
 
 		this.renderTasks();
 
-	}
+	};
 
 
 }

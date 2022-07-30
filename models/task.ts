@@ -11,5 +11,4 @@ export default class Task {
 		this.taskName = taskName;
 		this.taskIsCompleted = false;
 	}
-
 }
